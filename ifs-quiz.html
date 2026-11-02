@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>IFS Quiz - Indian Financial System</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); color-scheme: light; }
+    html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background-color: #F9F8F6; color: #1A1A1A; }
+    .font-serif-title { font-family: 'Playfair Display', Georgia, serif; }
+    @keyframes redFlash { 0% { background-color: rgba(220,38,38,.25); } 50% { background-color: rgba(220,38,38,.45); } 100% { background-color: #F9F8F6; } }
+    .wrong-flash { animation: redFlash .5s ease-in-out; }
+    .floating-emoji { position: fixed; font-size: 2.5rem; pointer-events: none; z-index: 100; animation: floatUp 1.2s ease-out forwards; }
+    @keyframes floatUp { 0% { transform: translateY(0) scale(.5) rotate(0deg); opacity: 1; } 100% { transform: translateY(-120px) scale(1.4) rotate(20deg); opacity: 0; } }
+    .shadow-luxury { box-shadow: 0 10px 30px -5px rgba(0,0,0,.05), 0 4px 10px -2px rgba(0,0,0,.02); }
+  html[data-theme=dark] { color-scheme: dark; min-height: 100%; background: radial-gradient(900px circle at 15% -5%, #261a5c 0%, transparent 60%), radial-gradient(800px circle at 100% 100%, #0b3a55 0%, transparent 55%), #080a16; background-attachment: fixed; }
+    html[data-theme=dark] body { background-color: transparent; color: #e7e9f5; }
+    html[data-theme=dark] body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; background: radial-gradient(500px circle at 85% 12%, rgba(34,211,238,.12), transparent 60%), radial-gradient(500px circle at 8% 88%, rgba(168,85,247,.16), transparent 60%); }
+    html[data-theme=dark] .wrong-flash { animation-name: redFlashDark; }
+    @keyframes redFlashDark { 0% { background-color: rgba(248,113,113,.30); } 50% { background-color: rgba(248,113,113,.5); } 100% { background-color: transparent; } }
+    html[data-theme=dark] .bg-white { background: rgba(20,22,45,.88); backdrop-filter: blur(14px); border-color: rgba(139,124,255,.28); box-shadow: 0 0 0 1px rgba(139,124,255,.08), 0 12px 40px -8px rgba(124,92,255,.35); }
+    html[data-theme=dark] .shadow-luxury { box-shadow: 0 0 0 1px rgba(139,124,255,.08), 0 12px 40px -8px rgba(124,92,255,.35); }
+    html[data-theme=dark] .bg-stone-50 { background: rgba(255,255,255,.04); }
+    html[data-theme=dark] .bg-stone-100 { background: rgba(255,255,255,.07); }
+    html[data-theme=dark] .hover\:bg-stone-100:hover, html[data-theme=dark] .hover\:bg-stone-200:hover { background: rgba(139,124,255,.18); }
+    html[data-theme=dark] .border-stone-100, html[data-theme=dark] .border-stone-200, html[data-theme=dark] .border-stone-300 { border-color: rgba(255,255,255,.12); }
+    html[data-theme=dark] .hover\:border-stone-400:hover { border-color: #22d3ee; box-shadow: 0 0 14px rgba(34,211,238,.35); }
+    html[data-theme=dark] .text-stone-900, html[data-theme=dark] .text-stone-800 { color: #f1f2ff; }
+    html[data-theme=dark] .text-stone-700, html[data-theme=dark] .text-stone-600 { color: #b8bcd8; }
+    html[data-theme=dark] .text-stone-500, html[data-theme=dark] .text-stone-400 { color: #8a8fb0; }
+    html[data-theme=dark] .font-serif-title { text-shadow: 0 0 26px rgba(124,92,255,.5); }
+    html[data-theme=dark] .bg-stone-900, html[data-theme=dark] .hover\:bg-stone-800:hover { background: linear-gradient(135deg, #7c5cff, #22d3ee); color: #fff; box-shadow: 0 6px 22px -4px rgba(124,92,255,.6); }
+    html[data-theme=dark] .hover\:bg-stone-800:hover { filter: brightness(1.15); }
+    html[data-theme=dark] .bg-amber-50, html[data-theme=dark] .bg-amber-100, html[data-theme=dark] .hover\:bg-amber-100:hover, html[data-theme=dark] .hover\:bg-amber-200:hover { background: rgba(251,191,36,.14); }
+    html[data-theme=dark] .text-amber-900 { color: #fcd34d; }
+    html[data-theme=dark] .border-amber-200, html[data-theme=dark] .border-amber-300 { border-color: rgba(251,191,36,.4); }
+    html[data-theme=dark] .bg-emerald-50, html[data-theme=dark] .bg-emerald-100 { background: rgba(16,185,129,.16); }
+    html[data-theme=dark] .text-emerald-900, html[data-theme=dark] .text-emerald-950, html[data-theme=dark] .text-emerald-800 { color: #6ee7b7; }
+    html[data-theme=dark] .text-emerald-700 { color: #34d399; }
+    html[data-theme=dark] .border-emerald-600, html[data-theme=dark] .border-emerald-300 { border-color: #10b981; box-shadow: 0 0 16px rgba(16,185,129,.4); }
+    html[data-theme=dark] .bg-red-50, html[data-theme=dark] .bg-red-100 { background: rgba(239,68,68,.16); }
+    html[data-theme=dark] .text-red-900, html[data-theme=dark] .text-red-950, html[data-theme=dark] .text-red-800, html[data-theme=dark] .text-red-700 { color: #fca5a5; }
+    html[data-theme=dark] .border-red-600, html[data-theme=dark] .border-red-300 { border-color: #f87171; box-shadow: 0 0 16px rgba(248,113,113,.4); }
+    html[data-theme=dark] select option { background: #14162b; color: #e7e9f5; }
+    html[data-theme=dark] .bg-amber-100.rounded-full, html[data-theme=dark] .bg-amber-100.text-amber-900 { box-shadow: 0 0 12px rgba(251,191,36,.25); }
+    .theme-switch { position: relative; width: 52px; height: 28px; flex: none; padding: 0; border-radius: 999px; background: #d6d3d1; border: 1px solid #a8a29e; cursor: pointer; transition: background .3s, border-color .3s; }
+    .theme-switch .knob { position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; line-height: 1; box-shadow: 0 1px 4px rgba(0,0,0,.3); transition: transform .3s, background .3s; }
+    html[data-theme=dark] .theme-switch { background: linear-gradient(135deg, #7c5cff, #22d3ee); border-color: transparent; }
+    html[data-theme=dark] .theme-switch .knob { transform: translateX(24px); background: #14162b; }
+    .big-pop { position: fixed; left: 50%; top: 40%; transform: translate(-50%,-50%); font-size: 6rem; font-weight: 800; pointer-events: none; z-index: 120; animation: bigPop 1s ease-out forwards; text-align: center; }
+    @keyframes bigPop { 0% { transform: translate(-50%,-50%) scale(.2); opacity: 0; } 25% { transform: translate(-50%,-50%) scale(1.2); opacity: 1; } 100% { transform: translate(-50%,-80%) scale(1); opacity: 0; } }
+    .falling-emoji { position: fixed; top: -50px; font-size: 2.2rem; pointer-events: none; z-index: 100; animation: fallDown 2s ease-in forwards; }
+    @keyframes fallDown { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(105vh) rotate(25deg); opacity: .2; } }
+    .ambient { font-size: 1.8rem; animation-duration: 2.4s; opacity: .7; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 md:p-8 transition-colors duration-300">
+
+  <header class="max-w-4xl w-full mx-auto flex flex-wrap justify-between items-center gap-4 bg-white p-4 rounded-2xl shadow-luxury border border-stone-200">
+    <div class="flex items-center gap-2">
+      <span class="text-2xl">🏛️</span>
+      <h1 class="font-serif-title font-bold text-xl md:text-2xl text-stone-900 tracking-tight">IFS Prep Hub</h1>
+    </div>
+    <div class="flex items-center gap-2 flex-wrap">
+      <div class="flex items-center gap-2"><span class="text-xs font-semibold text-stone-700">Dark mode</span><button id="themeBtn" onclick="toggleTheme()" role="switch" aria-checked="false" aria-label="Toggle dark mode" class="theme-switch"><span class="knob">☀️</span></button></div>
+      <button id="soundToggleBtn" onclick="toggleSound()" class="flex items-center gap-1.5 px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold rounded-lg transition-all border border-stone-300">
+        <span id="soundIcon">🔊</span>
+        <span id="soundStatus">Sound: ON</span>
+      </button>
+      <div class="relative inline-block text-left">
+        <select onchange="testSFX(this.value); this.value='';" class="px-2.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold rounded-lg border border-stone-300 cursor-pointer">
+          <option value="" disabled selected>🔊 Test SFX</option>
+          <option value="wrong">🙀 Screech &amp; FAAH (Wrong)</option>
+          <option value="duck">🦆 Duck Squeak (Correct)</option>
+          <option value="drum">🥁 Drum Roll (Praise)</option>
+          <option value="airhorn">🎺 Airhorn (5-Streak)</option>
+        </select>
+      </div>
+      <select id="musicSelect" onchange="setMusic(this.value)" class="px-2.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-semibold rounded-lg border border-stone-300 cursor-pointer">
+          <option value="off">🎵 Music: Off</option>
+          <option value="chill" selected>☕ Lo-fi Chill</option>
+          <option value="arcade">🕹️ Arcade Rush</option>
+          <option value="epic">🏛️ Epic Finance</option>
+        </select>
+      <button onclick="openModal('cheatSheetModal')" class="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold rounded-lg transition-all">📜 Cheat Sheet</button>
+    </div>
+  </header>
+
+  <main class="max-w-4xl w-full mx-auto my-6 flex-grow">
+
+    <div id="startScreen" class="bg-white rounded-3xl p-6 md:p-10 shadow-luxury border border-stone-200 text-center">
+      <span class="inline-block px-3 py-1 bg-amber-100 text-amber-900 text-xs font-bold rounded-full uppercase tracking-wider mb-3">Indian Financial System</span>
+      <h2 class="font-serif-title text-3xl md:text-5xl font-extrabold text-stone-900 leading-tight mb-4">INDIAN FINANCIAL SYSTEM QUIZ 💸</h2>
+      <p class="text-stone-600 text-sm md:text-base max-w-xl mx-auto mb-8">Test your knowledge on RBI monetary policies, money &amp; capital markets, financial instruments, and SEBI regulations. Witty praise for wins, savage roasts for fails.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left max-w-2xl mx-auto mb-8 bg-stone-50 p-6 rounded-2xl border border-stone-200">
+        <div class="md:col-span-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">Difficulty Level</label>
+          <select id="diffSelect" class="w-full p-2.5 bg-white border border-stone-300 rounded-xl text-stone-800 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-stone-900">
+            <option value="all">🎲 Mixed (2 hints)</option>
+            <option value="easy">🟢 Easy (3 hints)</option>
+            <option value="medium" selected>🟡 Medium (2 hints)</option>
+            <option value="hard">🔴 Hard (1 hint)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">Question Count</label>
+          <select id="qCountSelect" class="w-full p-2.5 bg-white border border-stone-300 rounded-xl text-stone-800 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-stone-900">
+            <option value="5">5 Questions (Quick Quiz)</option>
+            <option value="10" selected>10 Questions (Standard)</option>
+            <option value="15">15 Questions (Full Test)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">Quiz Timer Mode</label>
+          <select id="modeSelect" class="w-full p-2.5 bg-white border border-stone-300 rounded-xl text-stone-800 font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-stone-900">
+            <option value="speed">⚡ Speed Run (30s / Q)</option>
+            <option value="standard" selected>⏱️ Standard (60s / Q)</option>
+            <option value="relaxed">🧘 Relaxed (No Timer)</option>
+          </select>
+        </div>
+      </div>
+      <button onclick="startQuiz()" class="px-8 py-4 bg-stone-900 hover:bg-stone-800 text-white font-bold text-lg rounded-2xl shadow-lg transition-all transform hover:-translate-y-0.5">Start Quiz Now 🚀</button>
+    </div>
+
+    <div id="quizScreen" class="hidden bg-white rounded-3xl p-6 md:p-8 shadow-luxury border border-stone-200">
+      <div class="flex justify-between items-center mb-6 pb-4 border-b border-stone-100">
+        <div class="flex items-center gap-3">
+          <span id="qProgress" class="text-xs font-extrabold uppercase tracking-widest px-3 py-1 bg-stone-100 rounded-full text-stone-700">Q 1/10</span>
+          <span id="streakBadge" class="hidden text-xs font-bold px-2.5 py-1 bg-amber-100 text-amber-900 rounded-full">🔥 <span id="streakCount">0</span> Streak</span>
+        </div>
+        <div id="timerContainer" class="flex items-center gap-1.5 font-bold text-stone-700 text-sm">
+          <span>⏱️</span><span id="timerText">60s</span>
+        </div>
+      </div>
+      <div class="mb-6">
+        <span id="topicTag" class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1 block">RBI &amp; Policy</span>
+        <h3 id="questionText" class="font-serif-title text-xl md:text-2xl font-bold text-stone-900">Question goes here?</h3>
+      </div>
+      <div id="optionsContainer" class="grid grid-cols-1 gap-3 mb-6"></div>
+      <div id="feedbackBox" class="hidden p-4 rounded-2xl mb-6 text-sm font-medium"></div>
+      <div class="flex justify-end">
+        <button id="exitBtn" onclick="exitQuiz()" class="mr-auto px-5 py-3 bg-stone-100 hover:bg-stone-200 text-stone-800 border border-stone-300 font-bold rounded-xl transition-all">🏠 Exit to Home</button>
+        <button id="hintBtn" onclick="useHint()" class="mr-3 px-5 py-3 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 font-bold rounded-xl transition-all">💡 Hint (2)</button>
+        <button id="nextBtn" onclick="nextQuestion()" class="hidden px-6 py-3 bg-stone-900 hover:bg-stone-800 text-white font-bold rounded-xl transition-all">Next Question ➔</button>
+      </div>
+    </div>
+
+    <div id="scoreScreen" class="hidden bg-white rounded-3xl p-6 md:p-10 shadow-luxury border border-stone-200 text-center">
+      <span class="text-4xl mb-2 block">📊</span>
+      <h2 class="font-serif-title text-3xl md:text-4xl font-extrabold text-stone-900 mb-2">Performance Summary</h2>
+      <p id="scoreVerdict" class="text-stone-600 font-medium text-base mb-6">Verdict loading...</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-xl mx-auto mb-8">
+        <div class="bg-stone-50 p-4 rounded-2xl border border-stone-200">
+          <span class="block text-xs font-bold text-stone-500 uppercase">Final Score</span>
+          <span id="finalScore" class="font-serif-title text-2xl font-bold text-stone-900">0/10</span>
+        </div>
+        <div class="bg-stone-50 p-4 rounded-2xl border border-stone-200">
+          <span class="block text-xs font-bold text-stone-500 uppercase">Accuracy</span>
+          <span id="accuracyPct" class="font-serif-title text-2xl font-bold text-stone-900">0%</span>
+        </div>
+        <div class="col-span-2 md:col-span-1 bg-stone-50 p-4 rounded-2xl border border-stone-200">
+          <span class="block text-xs font-bold text-stone-500 uppercase">Max Streak</span>
+          <span id="maxStreak" class="font-serif-title text-2xl font-bold text-stone-900">0 🔥</span>
+        </div>
+      </div>
+      <div id="studySection" class="max-w-xl mx-auto mb-8 text-left bg-amber-50 border border-amber-200 rounded-2xl p-5">
+        <h3 class="font-serif-title font-bold text-xl text-stone-900 mb-3">📚 Topics to Study</h3>
+        <ul id="studyList" class="space-y-2 text-sm text-stone-800"></ul>
+      </div>
+      <button onclick="restartQuiz()" class="px-8 py-3.5 bg-stone-900 hover:bg-stone-800 text-white font-bold rounded-2xl transition-all">Try Again 🔄</button>
+    </div>
+  </main>
+
+  <div id="cheatSheetModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white max-w-2xl w-full max-h-[80vh] overflow-y-auto rounded-3xl p-6 md:p-8 shadow-2xl border border-stone-200">
+      <div class="flex justify-between items-center mb-4 pb-2 border-b border-stone-100">
+        <h3 class="font-serif-title font-bold text-2xl text-stone-900">📜 IFS Core Cheat Sheet</h3>
+        <button onclick="closeModal('cheatSheetModal')" class="text-stone-400 hover:text-stone-900 text-xl font-bold">✕</button>
+      </div>
+      <div class="space-y-4 text-sm text-stone-700">
+        <div class="p-3 bg-stone-50 rounded-xl border border-stone-200"><strong class="text-stone-900 font-bold block mb-1">🏦 Repo Rate vs Reverse Repo Rate:</strong>Repo Rate is the rate at which RBI lends money to commercial banks against government securities. Reverse Repo is when RBI borrows/absorbs liquidity from commercial banks.</div>
+        <div class="p-3 bg-stone-50 rounded-xl border border-stone-200"><strong class="text-stone-900 font-bold block mb-1">📜 Treasury Bills (T-Bills):</strong>Issued ONLY by the Central Government. Short-term debt instruments issued at a discount to face value and redeemed at par. Maturities: 91, 182, 364 days.</div>
+        <div class="p-3 bg-stone-50 rounded-xl border border-stone-200"><strong class="text-stone-900 font-bold block mb-1">💼 Commercial Paper (CP):</strong>Unsecured money market instrument issued by highly-rated corporations to raise short-term capital. Minimum tenure: 7 days, maximum 1 year.</div>
+        <div class="p-3 bg-stone-50 rounded-xl border border-stone-200"><strong class="text-stone-900 font-bold block mb-1">🛡️ SEBI (Securities and Exchange Board of India):</strong>Established as a statutory body in 1992 to protect investor interests, regulate securities markets, and prevent insider trading.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center text-xs text-stone-500 py-4">Indian Financial System Quiz • Designed for Commerce &amp; Business Students</footer>
+
+  <script>
+    const questionBank = [
+      { topic: "RBI & Monetary Policy", q: "What is the primary instrument used by RBI to absorb excess liquidity from commercial banks?", options: ["Repo Rate", "Reverse Repo Rate", "Bank Rate", "Marginal Standing Facility (MSF)"], answer: 1, explanation: "Reverse Repo Rate is the rate at which RBI accepts deposits from commercial banks, absorbing excess liquidity from the financial system." },
+      { topic: "Financial Instruments", q: "Which of the following short-term money market instruments can ONLY be issued by the Central Government of India?", options: ["Commercial Paper (CP)", "Certificate of Deposit (CD)", "Treasury Bills (T-Bills)", "Trade Bills"], answer: 2, explanation: "Treasury Bills (T-Bills) are short-term promissory notes issued exclusively by the Government of India." },
+      { topic: "Financial Intermediaries", q: "Which specialized institution serves as the apex development bank for agriculture and rural development in India?", options: ["SIDBI", "NABARD", "EXIM Bank", "NHB"], answer: 1, explanation: "NABARD (National Bank for Agriculture and Rural Development) was established in 1982 to finance rural and agricultural initiatives." },
+      { topic: "SEBI & Regulations", q: "In what year was SEBI granted full statutory powers under the SEBI Act passed by the Parliament?", options: ["1988", "1990", "1992", "1995"], answer: 2, explanation: "While SEBI was formed in 1988 as an executive body, it received full statutory authority under the SEBI Act of 1992." },
+      { topic: "Money & Capital Markets", q: "What is the key difference between Call Money and Notice Money in the Indian Money Market?", options: ["Call Money is borrowed for 1 day; Notice Money is for 2 to 14 days.", "Call Money requires collateral; Notice Money is completely unsecured.", "Call Money is for retail investors; Notice Money is for banks only.", "Notice Money carries zero interest rate."], answer: 0, explanation: "Call Money involves overnight borrowing (1 day), whereas Notice Money covers borrowing for a duration between 2 and 14 days without collateral." },
+      { topic: "Financial Instruments", q: "What is the minimum tenure for Commercial Papers (CP) issued by eligible credit-rated corporate entities in India?", options: ["1 Day", "7 Days", "15 Days", "30 Days"], answer: 1, explanation: "Commercial Paper (CP) can be issued for a minimum maturity of 7 days up to a maximum of 1 year." },
+      { topic: "RBI & Monetary Policy", q: "What happens when RBI INCREASES the Cash Reserve Ratio (CRR)?", options: ["Commercial banks have MORE funds available for lending.", "Commercial banks have FEWER funds available for lending, reducing money supply.", "Interest rates on fixed deposits automatically drop to zero.", "The stock market instantly surges."], answer: 1, explanation: "A higher CRR obligates banks to keep a larger portion of their deposits with RBI as cash, leaving less capital available for commercial lending." },
+      { topic: "Money & Capital Markets", q: "Which market deals specifically with long-term debt and equity instruments maturing beyond 1 year?", options: ["Money Market", "Capital Market", "Foreign Exchange Market", "Discount Market"], answer: 1, explanation: "The Capital Market handles long-term financing instruments (stocks, bonds, debentures), while the Money Market deals short-term instruments (< 1 year)." },
+      { topic: "Financial Markets", diff: "easy", q: "In which market are new securities issued to investors for the first time?", options: ["Secondary Market", "Primary Market", "Money Market", "Derivatives Market"], answer: 1, explanation: "The Primary Market is where new securities are issued (IPOs, FPOs, rights issues); the Secondary Market is where existing securities are traded." },
+      { topic: "Capital Markets", diff: "medium", q: "What does ASBA stand for in the IPO application process?", options: ["Application Supported by Blocked Amount", "Authorised Securities and Bonds Account", "Automated Share Bidding Application", "Approved Stock Broker Allotment"], answer: 0, explanation: "With ASBA, the application money stays in your bank account (blocked) until shares are allotted, and is debited only on allotment." },
+      { topic: "Regulators", diff: "medium", q: "Which authority regulates and develops the pension sector, including the NPS?", options: ["IRDAI", "SEBI", "PFRDA", "EPFO"], answer: 2, explanation: "PFRDA (Pension Fund Regulatory and Development Authority) regulates the National Pension System." },
+      { topic: "RBI & Monetary Policy", diff: "hard", q: "Which committee's recommendation led to the Monetary Policy Committee (MPC) framework in India?", options: ["Narasimham Committee", "Urjit Patel Committee", "Nachiket Mor Committee", "Rangarajan Committee"], answer: 1, explanation: "The Urjit Patel Committee (2014) recommended a Monetary Policy Committee; the six-member MPC was formalised under the RBI Act amendment of 2016." },
+      { topic: "RBI & Monetary Policy", diff: "hard", q: "Under the current LAF corridor, where is the MSF rate set relative to the repo rate?", options: ["25 bps above the repo rate", "25 bps below the repo rate", "Equal to the repo rate", "100 bps above the repo rate"], answer: 0, explanation: "The MSF rate sits 25 bps above the repo rate, forming the upper bound of the corridor; the SDF rate is 25 bps below." },
+      { topic: "Financial Instruments", diff: "hard", q: "What is the minimum denomination for Commercial Paper in India?", options: ["₹1 lakh", "₹5 lakh", "₹10 lakh", "₹25 lakh"], answer: 1, explanation: "Commercial Paper is issued in minimum denominations of ₹5 lakh (and multiples thereof)." }
+    ];
+
+    ["medium","easy","easy","medium","hard","medium","easy","easy"].forEach((d, i) => questionBank[i].diff = d);
+    const hintsByDiff = { easy: 3, medium: 2, hard: 1, all: 2 };
+    let hintsLeft = 2;
+    let wrongTopics = {};
+    const studyTips = {
+      'RBI & Monetary Policy': 'Repo, reverse repo, CRR, MSF, the MPC and the LAF corridor',
+      'Financial Instruments': 'T-Bills, Commercial Paper and CDs: who issues them, tenures, denominations',
+      'Financial Intermediaries': 'Roles of NABARD, SIDBI, EXIM Bank and NHB',
+      'SEBI & Regulations': 'SEBI history, the 1992 Act and its powers',
+      'Money & Capital Markets': 'Call vs notice money, money market vs capital market',
+      'Financial Markets': 'Primary vs secondary markets',
+      'Capital Markets': 'IPO process, ASBA and allotment',
+      'Regulators': 'Who regulates what: SEBI, IRDAI, PFRDA, RBI'
+    };
+
+    const rightPraise = [
+      "🔥 Market Governor Status! Excellent command over IFS principles.",
+      "🚀 SEBI Chairman candidate right here! Spot-on answer.",
+      "💯 RBI Board material! Precise understanding of financial mechanisms.",
+      "👑 Textbook perfection! You clearly didn’t skip lectures."
+    ];
+    const wrongRoasts = [
+      "💀 Bro thinks RBI prints money for fun. Please review monetary tools! 📉",
+      "🚨 SEBI wants to know your location! That option violates core finance rules.",
+      "☕ Might be time to reconsider commerce and open a tea stall! 🗿",
+      "📉 Financial disaster! Even an unaccredited NBFC wouldn’t approve that logic."
+    ];
+
+    let audioCtx = null;
+    let isMuted = false;
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+    document.addEventListener('click', initAudio, { once: true });
+    function toggleSound() {
+      isMuted = !isMuted;
+      document.getElementById('soundIcon').innerText = isMuted ? '🔇' : '🔊';
+      document.getElementById('soundStatus').innerText = isMuted ? 'Sound: OFF' : 'Sound: ON';
+    }
+
+    function playWrongSound() {
+      if (isMuted) return; initAudio();
+      try {
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain(), t = audioCtx.currentTime;
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(450, t);
+        osc.frequency.exponentialRampToValueAtTime(120, t + 0.45);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.45);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(t + 0.45);
+      } catch (e) {}
+    }
+    function playDuckSound() {
+      if (isMuted) return; initAudio();
+      try {
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain(), t = audioCtx.currentTime;
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(850, t);
+        osc.frequency.exponentialRampToValueAtTime(400, t + 0.15);
+        gain.gain.setValueAtTime(0.25, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(t + 0.15);
+      } catch (e) {}
+    }
+    function playDrumRoll() {
+      if (isMuted) return; initAudio();
+      try {
+        for (let i = 0; i < 5; i++) {
+          const osc = audioCtx.createOscillator(), gain = audioCtx.createGain(), s = audioCtx.currentTime + i * 0.05;
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(150, s);
+          gain.gain.setValueAtTime(0.15, s);
+          gain.gain.exponentialRampToValueAtTime(0.01, s + 0.04);
+          osc.connect(gain); gain.connect(audioCtx.destination);
+          osc.start(s); osc.stop(s + 0.04);
+        }
+      } catch (e) {}
+    }
+    function playAirhorn() {
+      if (isMuted) return; initAudio();
+      try {
+        const freqs = [466.16, 466.16, 622.25, 466.16], times = [0, 0.12, 0.24, 0.36];
+        freqs.forEach((f, idx) => {
+          const osc = audioCtx.createOscillator(), gain = audioCtx.createGain(), s = audioCtx.currentTime + times[idx];
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(f, s);
+          gain.gain.setValueAtTime(0.3, s);
+          gain.gain.exponentialRampToValueAtTime(0.01, s + 0.1);
+          osc.connect(gain); gain.connect(audioCtx.destination);
+          osc.start(s); osc.stop(s + 0.1);
+        });
+      } catch (e) {}
+    }
+    function testSFX(type) {
+      if (type === 'wrong') playWrongSound();
+      if (type === 'duck') playDuckSound();
+      if (type === 'drum') playDrumRoll();
+      if (type === 'airhorn') playAirhorn();
+    }
+
+    let activeQuestions = [], currentQIdx = 0, score = 0, streak = 0, maxStreak = 0;
+    let timerInterval = null, timeRemaining = 60, currentMode = 'standard';
+
+    function startQuiz() {
+      initAudio();
+      const count = parseInt(document.getElementById('qCountSelect').value);
+      currentMode = document.getElementById('modeSelect').value;
+      const diff = document.getElementById('diffSelect').value;
+      const pool = questionBank.filter(x => diff === 'all' || x.diff === diff);
+      activeQuestions = [...pool].sort(() => 0.5 - Math.random()).slice(0, count);
+      hintsLeft = hintsByDiff[diff];
+      wrongTopics = {};
+      const ms = document.getElementById('musicSelect').value;
+      if (ms !== 'off' && !musicTimer) setMusic(ms);
+      currentQIdx = 0; score = 0; streak = 0; maxStreak = 0;
+      document.getElementById('streakBadge').classList.add('hidden');
+      document.getElementById('startScreen').classList.add('hidden');
+      document.getElementById('scoreScreen').classList.add('hidden');
+      document.getElementById('quizScreen').classList.remove('hidden');
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      clearInterval(timerInterval);
+      const q = activeQuestions[currentQIdx];
+      document.getElementById('qProgress').innerText = `Q ${currentQIdx + 1}/${activeQuestions.length}`;
+      document.getElementById('topicTag').innerText = `${q.topic} • ${{easy:'🟢 Easy',medium:'🟡 Medium',hard:'🔴 Hard'}[q.diff]}`;
+      document.getElementById('questionText').innerText = q.q;
+      const feedback = document.getElementById('feedbackBox');
+      feedback.className = "hidden p-4 rounded-2xl mb-6 text-sm font-medium";
+      document.getElementById('nextBtn').classList.add('hidden');
+      updateHintBtn();
+
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-4 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 hover:border-stone-400 font-semibold text-stone-800 text-sm transition-all";
+        btn.innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+        btn.onclick = () => selectOption(idx);
+        container.appendChild(btn);
+      });
+
+      if (currentMode === 'relaxed') {
+        document.getElementById('timerContainer').classList.add('hidden');
+      } else {
+        document.getElementById('timerContainer').classList.remove('hidden');
+        timeRemaining = currentMode === 'speed' ? 30 : 60;
+        document.getElementById('timerText').innerText = `${timeRemaining}s`;
+        timerInterval = setInterval(() => {
+          timeRemaining--;
+          document.getElementById('timerText').innerText = `${timeRemaining}s`;
+          if (timeRemaining <= 0) { clearInterval(timerInterval); selectOption(-1); }
+        }, 1000);
+      }
+    }
+
+    function selectOption(selectedIdx) {
+      clearInterval(timerInterval);
+      const q = activeQuestions[currentQIdx];
+      const buttons = document.getElementById('optionsContainer').children;
+      for (let btn of buttons) { btn.disabled = true; btn.classList.add('cursor-not-allowed', 'opacity-80'); }
+      const feedback = document.getElementById('feedbackBox');
+      feedback.classList.remove('hidden');
+
+      if (selectedIdx === q.answer) {
+        score++; streak++;
+        if (streak > maxStreak) maxStreak = streak;
+        playDuckSound(); playDrumRoll(); triggerEmojiExplosion();
+        bigPop(['😎','🤩','🥳','🎉','🧠'][Math.floor(Math.random() * 5)]);
+        if (streak === 5) playAirhorn();
+        if (streak >= 3) setTimeout(() => bigPop('🔥 x' + streak), 600);
+        buttons[selectedIdx].className = "w-full text-left p-4 rounded-xl border-2 border-emerald-600 bg-emerald-50 text-emerald-900 font-bold text-sm transition-all";
+        const praise = rightPraise[Math.floor(Math.random() * rightPraise.length)];
+        feedback.className = "p-4 rounded-2xl mb-6 text-sm font-medium bg-emerald-100 text-emerald-950 border border-emerald-300";
+        feedback.innerHTML = `<strong>${praise}</strong><br><span class="text-xs text-emerald-800 mt-1 block">${q.explanation}</span>`;
+        if (streak >= 2) {
+          document.getElementById('streakBadge').classList.remove('hidden');
+          document.getElementById('streakCount').innerText = streak;
+        }
+      } else {
+        streak = 0;
+        document.getElementById('streakBadge').classList.add('hidden');
+        wrongTopics[q.topic] = (wrongTopics[q.topic] || 0) + 1;
+        playWrongSound(); triggerWrongFlash(); triggerSadRain();
+        if (selectedIdx >= 0) buttons[selectedIdx].className = "w-full text-left p-4 rounded-xl border-2 border-red-600 bg-red-50 text-red-900 font-bold text-sm transition-all";
+        buttons[q.answer].className = "w-full text-left p-4 rounded-xl border-2 border-emerald-600 bg-emerald-50 text-emerald-900 font-bold text-sm transition-all";
+        const roast = wrongRoasts[Math.floor(Math.random() * wrongRoasts.length)];
+        feedback.className = "p-4 rounded-2xl mb-6 text-sm font-medium bg-red-100 text-red-950 border border-red-300";
+        feedback.innerHTML = `<strong>${roast}</strong><br><span class="text-xs text-red-800 mt-1 block">${q.explanation}</span>`;
+      }
+      document.getElementById('hintBtn').classList.add('hidden');
+      document.getElementById('nextBtn').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      currentQIdx++;
+      if (currentQIdx < activeQuestions.length) loadQuestion(); else showScorecard();
+    }
+
+    function showScorecard() {
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('scoreScreen').classList.remove('hidden');
+      const accuracy = Math.round((score / activeQuestions.length) * 100);
+      document.getElementById('finalScore').innerText = `${score}/${activeQuestions.length}`;
+      document.getElementById('accuracyPct').innerText = `${accuracy}%`;
+      document.getElementById('maxStreak').innerText = `${maxStreak} 🔥`;
+      const verdict = document.getElementById('scoreVerdict');
+      if (accuracy >= 80) verdict.innerText = "🏆 MASTER CLASS! You cooked the IFS exam! Ready for high-finance careers.";
+      else if (accuracy >= 50) verdict.innerText = "📈 DECENT SHOWING! You passed, but watch out for tricky RBI and money market rules.";
+      else verdict.innerText = "💀 ABSOLUTELY COOKED! Time to revisit the cheat sheet and re-read your textbooks!";
+      const studyList = document.getElementById('studyList');
+      const missed = Object.entries(wrongTopics).sort((a, b) => b[1] - a[1]);
+      studyList.innerHTML = missed.length
+        ? missed.map(([t, n]) => `<li class="p-3 bg-white rounded-xl border border-amber-200"><strong>${t}</strong> <span class="text-xs text-red-700">(${n} missed)</span><br><span class="text-xs text-stone-600">Revise: ${studyTips[t] || 'Review this chapter'}</span></li>`).join('')
+        : '<li class="p-3 bg-white rounded-xl border border-emerald-200">🎉 No weak topics. You got everything right!</li>';
+      if (accuracy >= 50) { playAirhorn(); bigPop('🏆'); } else { playWrongSound(); triggerSadRain(); }
+      if (accuracy >= 80 && window.confetti) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    }
+
+    function restartQuiz() {
+      document.getElementById('scoreScreen').classList.add('hidden');
+      document.getElementById('startScreen').classList.remove('hidden');
+    }
+
+    function triggerWrongFlash() {
+      document.body.classList.add('wrong-flash');
+      setTimeout(() => document.body.classList.remove('wrong-flash'), 500);
+    }
+    function triggerEmojiExplosion() {
+      const emojis = ['🔥', '👑', '⚡', '🚀', '💰', '🦆', '🎉', '🥳', '😎', '💸', '🤑', '📈'];
+      for (let i = 0; i < 12; i++) {
+        const el = document.createElement('div');
+        el.className = 'floating-emoji';
+        el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = `${Math.random() * 80 + 10}%`;
+        el.style.top = `${Math.random() * 40 + 40}%`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1200);
+      }
+    }
+    function bigPop(text) {
+      const el = document.createElement('div');
+      el.className = 'big-pop';
+      el.innerText = text;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1000);
+    }
+    function triggerSadRain() {
+      bigPop('😞');
+      const sad = ['😞', '💔', '🥺', '😿', '💧', '📉'];
+      for (let i = 0; i < 14; i++) {
+        setTimeout(() => {
+          const el = document.createElement('div');
+          el.className = 'falling-emoji';
+          el.innerText = sad[Math.floor(Math.random() * sad.length)];
+          el.style.left = `${Math.random() * 92}%`;
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 2000);
+        }, i * 90);
+      }
+    }
+    function updateHintBtn() {
+      const b = document.getElementById('hintBtn');
+      b.classList.remove('hidden');
+      b.innerText = `💡 Hint (${hintsLeft})`;
+      b.disabled = hintsLeft <= 0;
+      b.classList.toggle('opacity-50', hintsLeft <= 0);
+    }
+    function useHint() {
+      if (hintsLeft <= 0) return;
+      const q = activeQuestions[currentQIdx];
+      const btns = [...document.getElementById('optionsContainer').children];
+      if (btns[0].disabled && btns.every(b => b.disabled)) return;
+      const wrong = btns.map((b, i) => i).filter(i => i !== q.answer && !btns[i].disabled);
+      if (wrong.length < 2) return;
+      wrong.sort(() => Math.random() - 0.5).slice(0, 2).forEach(i => {
+        btns[i].disabled = true;
+        btns[i].classList.add('opacity-30', 'line-through');
+      });
+      hintsLeft--;
+      updateHintBtn();
+      bigPop('💡');
+    }
+
+    // --- BACKGROUND MUSIC ---
+    let musicTimer = null, musicStep = 0;
+    const tracks = {
+      chill: { bpm: 80, type: 'triangle', vol: 0.07, mult: 1, prog: [[220,261.6,329.6],[174.6,220,261.6],[261.6,329.6,392],[196,246.9,293.7]] },
+      arcade: { bpm: 150, type: 'square', vol: 0.03, mult: 2, prog: [[261.6,329.6,392],[220,261.6,329.6],[174.6,220,261.6],[196,246.9,293.7]] },
+      epic: { bpm: 100, type: 'sawtooth', vol: 0.035, mult: 1, prog: [[196,246.9,293.7],[155.6,196,233.1],[174.6,220,261.6],[130.8,164.8,196]] }
+    };
+    function playNote(f, dur, type, vol) {
+      const osc = audioCtx.createOscillator(), g = audioCtx.createGain(), t = audioCtx.currentTime;
+      osc.type = type;
+      osc.frequency.setValueAtTime(f, t);
+      g.gain.setValueAtTime(vol, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      osc.connect(g); g.connect(audioCtx.destination);
+      osc.start(t); osc.stop(t + dur);
+    }
+    function setMusic(name) {
+      clearInterval(musicTimer); musicTimer = null;
+      if (name === 'off') return;
+      initAudio();
+      const tr = tracks[name];
+      musicStep = 0;
+      musicTimer = setInterval(() => {
+        if (isMuted || !audioCtx) return;
+        try {
+          const chord = tr.prog[Math.floor(musicStep / 8) % 4];
+          const n = chord[[0,1,2,1,0,2,1,2][musicStep % 8]];
+          playNote(n * tr.mult, 0.35, tr.type, tr.vol);
+          if (musicStep % 8 === 0) playNote(chord[0] / 2, 1.2, 'sine', tr.vol * 2.5);
+          musicStep++;
+        } catch (e) {}
+      }, 60000 / tr.bpm / 2);
+    }
+
+    // Ambient floating emojis
+    setInterval(() => {
+      if (document.hidden) return;
+      const el = document.createElement('div');
+      el.className = 'floating-emoji ambient';
+      el.innerText = ['💸','📈','🏦','💰','🪙','🦆','📊'][Math.floor(Math.random() * 7)];
+      el.style.left = `${Math.random() * 90 + 3}%`;
+      el.style.top = '85%';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2400);
+    }, 2500);
+
+    let exitArmed = false, exitTimeout = null;
+    function exitQuiz() {
+      const b = document.getElementById('exitBtn');
+      if (!exitArmed) {
+        exitArmed = true;
+        b.innerText = '⚠️ Click again to exit';
+        exitTimeout = setTimeout(() => { exitArmed = false; b.innerText = '🏠 Exit to Home'; }, 3000);
+        return;
+      }
+      clearTimeout(exitTimeout);
+      exitArmed = false;
+      b.innerText = '🏠 Exit to Home';
+      clearInterval(timerInterval);
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('scoreScreen').classList.add('hidden');
+      document.getElementById('startScreen').classList.remove('hidden');
+    }
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const b = document.getElementById('themeBtn');
+      if (b) { b.setAttribute('aria-checked', String(t === 'dark')); b.firstElementChild.innerText = t === 'dark' ? '🌙' : '☀️'; }
+    }
+    function toggleTheme() {
+      const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(t);
+      try { localStorage.setItem('ifsTheme', t); } catch (e) {}
+    }
+    (function () {
+      let t = null;
+      try { t = localStorage.getItem('ifsTheme'); } catch (e) {}
+      if (!t) t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+      applyTheme(t);
+    })();
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+  </script>
+</body>
+</html>
